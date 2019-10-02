@@ -1,1 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://automatik.travelport.com/test-template/1.0.0" elementFormDefault="qualified" targetNamespace="http://automatik.travelport.com/test-template/1.0.0">
+ 
+  <xs:element name="TestTemplate">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element type="xs:string" name="id" 						minOccurs="1" maxOccurs="1" nillable="false"/>
+        <xs:element type="xs:string" name="description" 			minOccurs="1" maxOccurs="1" nillable="false"/>
+        <xs:element type="testTypeEnumType" name="testType" 		minOccurs="1" maxOccurs="1" nillable="false"/>
+        <xs:element type="domainEnumType" name="domain"				minOccurs="1" maxOccurs="1" nillable="false"/>
+        <xs:element type="xs:string" name="author"          		minOccurs="1" maxOccurs="1" nillable="false"/>
+        <xs:element type="xs:string" name="jira"		    		minOccurs="0" maxOccurs="1" nillable="false"/>
+        <xs:element type="xs:integer" name="expectedHttpStatusCode" minOccurs="1" maxOccurs="1" nillable="false"/>
+        <xs:element type="xs:integer" name="maxAllowedResponseTime" minOccurs="0" maxOccurs="1" nillable="false"/>
+        
+        <xs:element name="config">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:short" name="timeout" minOccurs="0" maxOccurs="1" nillable="false"/>
+              <xs:element type="xs:boolean" name="SSLDisableHostNameVerification" minOccurs="0" maxOccurs="1" nillable="false"/>
+              <xs:element type="xs:boolean" name="SSLTrustSelfSigned" minOccurs="0" maxOccurs="1" nillable="false"/>
+              
+              
+              <xs:element name="proxy" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:boolean" name="useProxy" minOccurs="0" maxOccurs="1" nillable="false" default="false"/>
+                    <xs:element type="xs:string" name="httpProxyHost" minOccurs="1" maxOccurs="1" nillable="false"/>
+                    <xs:element type="xs:short" name="httpProxyPort"  minOccurs="1" maxOccurs="1" nillable="false"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              
+              <xs:element name="templateDataFiles" minOccurs="0" nillable="false">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="templateDataFile" maxOccurs="unbounded" minOccurs="1" nillable="false">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="id" use="required"/>
+                            <xs:attribute type="xs:string" name="fileName" use="required"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              
+              
+              
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      
 
+
+
+
+ 		<xs:element name="request">
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:element type="xs:string" name="targetURL"  minOccurs="1" maxOccurs="1" nillable="false"/>
+              <xs:element type="httpMethodEnumType" name="httpMethod" minOccurs="1" maxOccurs="1" nillable="false"/>
+              <xs:element name="headerParameters" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="headerParameter" maxOccurs="unbounded" minOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="key"  minOccurs="1" maxOccurs="1" nillable="false"/>
+                          <xs:element type="xs:string" name="value"  minOccurs="1" maxOccurs="1" nillable="false"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="URLParameters" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="URLParameter" maxOccurs="unbounded" minOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="key"  minOccurs="1" maxOccurs="1" nillable="false"/>
+                          <xs:element type="xs:string" name="value"  minOccurs="1" maxOccurs="1" nillable="false"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              
+              <xs:element type="xs:string" name="requestContent" minOccurs="0" maxOccurs="1" nillable="false"/>
+              <xs:element type="xs:string" name="binaryContentFileName" minOccurs="0" maxOccurs="1" nillable="false"/>
+              
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+
+ 		<xs:element name="xsdValidation" minOccurs="0" maxOccurs="1" nillable="false">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="responseValidation"  minOccurs="1" maxOccurs="1" nillable="false">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="xmlBodyXPath" minOccurs="0" maxOccurs="1" nillable="false"/>
+                    <xs:element type="xs:string" name="xsdFileName" minOccurs="1" maxOccurs="1" nillable="false"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+
+
+		<xs:element name="testAssertions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="testAssertion" maxOccurs="unbounded" minOccurs="0">
+              
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="strings" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="string">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="match"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="reportLabel"/>
+                              <xs:attribute type="xs:string" name="ignoreCase"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    
+                    <xs:element name="jsonpathexpressions" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="jsonpathexpression" maxOccurs="unbounded" minOccurs="1" nillable="false">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="jsonPath" maxOccurs="1" minOccurs="1" nillable="false"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="reportLabel" use="optional"/>
+                              <xs:attribute type="xs:boolean" name="match" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    
+                    
+                    <xs:element name="regexCounts" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="regexCount" maxOccurs="unbounded" minOccurs="1" nillable="false">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="pattern" minOccurs="1" maxOccurs="1" nillable="false"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:short" name="minOccurs" use="required"/>
+                              <xs:attribute type="xs:short" name="maxOccurs" use="required"/>
+                              <xs:attribute type="xs:string" name="reportLabel" use="optional"/>
+                               <xs:attribute type="xs:boolean" name="skipPatternValidation" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    
+                    
+                   
+                   <xs:element name="regexMatches" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="regexMatch" maxOccurs="unbounded" minOccurs="1" nillable="false">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="pattern" minOccurs="1" maxOccurs="1" nillable="false"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:boolean" name="match" use="required"/>
+                              <xs:attribute type="xs:string" name="reportLabel" use="optional"/>
+                               <xs:attribute type="xs:boolean" name="skipPatternValidation" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    
+                    
+                    
+                    <xs:element name="xpathexpressions" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="xpathexpression" maxOccurs="unbounded" minOccurs="1" nillable="false">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="assertTrue"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="reportLabel" use="optional"/>
+                              <xs:attribute type="xs:boolean" name="useXPath2.0" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  
+                  <xs:attribute type="assertionTypeEnumType" name="assertionType" use="required"/>
+                  <xs:attribute type="booleanConditionEnumType" name="conditionType" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+ 	</xs:choice>
+      <xs:attribute type="xs:boolean" name="skip" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+
+     
+  <xs:simpleType name="testTypeEnumType">
+       <xs:restriction base="xs:string">
+          <xs:enumeration value="Smoke" />
+          <xs:enumeration value="Functional" />
+          <xs:enumeration value="Regression" />
+          <xs:enumeration value="EndToEnd" />
+       </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="domainEnumType">
+       <xs:restriction base="xs:string">
+          <xs:enumeration value="Air" />
+          <xs:enumeration value="Hotel" />
+          <xs:enumeration value="Car" />
+          <xs:enumeration value="Other" />
+       </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="httpMethodEnumType">
+       <xs:restriction base="xs:string">
+          <xs:enumeration value="POST" />
+          <xs:enumeration value="GET" />
+          <xs:enumeration value="PUT" />
+          <xs:enumeration value="PATCH" />
+		  <xs:enumeration value="DELETE" />
+          <xs:enumeration value="HEAD" />
+          <xs:enumeration value="OPTIONS" />
+          <xs:enumeration value="TRACE" />          
+       </xs:restriction>
+  </xs:simpleType>
+  
+   <xs:simpleType name="assertionTypeEnumType">
+       <xs:restriction base="xs:string">
+          <xs:enumeration value="ContainString" />
+          <xs:enumeration value="NotContainString" />
+          <xs:enumeration value="ContainHeaderParameters" />
+          <xs:enumeration value="XPathExpression" />
+		  <xs:enumeration value="JsonPathExpression" />
+          <xs:enumeration value="RegexMatch" />
+          <xs:enumeration value="RegexCount" />
+       </xs:restriction>
+  </xs:simpleType>
+  
+  
+    <xs:simpleType name="booleanConditionEnumType">
+       <xs:restriction base="xs:string">
+          <xs:enumeration value="OR" />
+          <xs:enumeration value="AND" />
+       </xs:restriction>
+  </xs:simpleType>
+  
+ 
+   
+</xs:schema>
